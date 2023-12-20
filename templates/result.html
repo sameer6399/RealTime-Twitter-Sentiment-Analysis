@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Twitter Sentiment Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.danoneinstitute.org/wp-content/uploads/2020/06/logo-rond-twitter.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'style3.css')}}">
+    <style>
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {height: 550px}
+        
+        /* Set gray background color and 100% height */
+        .sidenav {
+          background-color: #f1f1f1;
+          height: 100%;
+        }
+        .par
+        {
+            color :black;
+        }
+            
+        /* On small screens, set height to 'auto' for the grid */
+        @media screen and (max-width: 767px) {
+          .row.content {height: auto;} 
+        }
+        
+      </style>
+</head>
+<body>
+ 
+<!-- Vertical navbar -->
+<div class="vertical-nav bg-white" id="sidebar">
+  <div class="py-4 px-3 mb-4 bg-light">
+    <div class="media d-flex align-items-center">
+     
+      <div class="media-body">
+        </div>
+    </div>
+  </div>
+
+  <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Dashboard</p>
+
+  <ul class="nav flex-column bg-white mb-0">
+    <li class="nav-item">
+      <a href="/dash.html" class="nav-link text-dark bg-light">
+                <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
+                home
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="/aboutus.html" class="nav-link text-dark">
+                <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
+                About
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ url_for('download_file') }}" class="nav-link text-dark">
+                <i class="fa fa-area-chart mr-3 text-primary fa-fw"></i>
+                Tweets
+            </a>
+    </li>
+    <!--<li class="nav-item">
+      <a href="#" class="nav-link text-dark">
+                <i class="fa fa-pie-chart mr-3 text-primary fa-fw"></i>
+                Analysis
+            </a>
+    </li>-->
+  </ul>
+
+  <!--<p class="text-gray font-weight-bold text-uppercase px-3 small py-4 mb-0">Charts</p>
+
+  <ul class="nav flex-column bg-white mb-0">
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark">
+                <i class="fa fa-area-chart mr-3 text-primary fa-fw"></i>
+                area charts
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark">
+                <i class="fa fa-bar-chart mr-3 text-primary fa-fw"></i>
+                bar charts
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark">
+                <i class="fa fa-pie-chart mr-3 text-primary fa-fw"></i>
+                pie charts
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark">
+                <i class="fa fa-line-chart mr-3 text-primary fa-fw"></i>
+                line charts
+            </a>
+    </li>
+  </ul>-->
+</div>
+<!--End vertical navbar -->
+
+
+<!-- Page content holder -->
+<div class="page-content p-5" id="content">
+  <!-- Toggle button -->
+  <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button>
+
+  <!-- Demo content -->
+  <h1 class="display-4 align-items-center text-white">Results</h1>
+  <!--<p class="lead text-white mb-0">Build a fixed sidebar using Bootstrap 4 vertical navigation and media objects.</p> -->
+  <div class="separator"></div>
+  <div class="row text-white">
+    
+<div class="container-fluid">
+    <div class="row content">
+    <div class="col-sm-9">
+        <!--<div class="well">
+          <h4>Dashboard</h4>
+          <p>Some text..</p>
+        </div>-->
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="well well-lg">
+                
+                <div class="caption">
+                
+              <p class="par " >Random Forest Classifier Accuracy {{RFC}}</p class="color black "> 
+              <p class="par" >Decision Tree Classifier Accuracy {{DTC}}</p class="color black "> 
+                <p class="par" >Logistic Regression Accuracy {{LR}}</p class="color black ">
+                  <p class="par">Support Vector Classifier Accuracy {{SVC}}</p class="color black ">
+              </div>
+            </div>
+          </div></div>
+
+
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="well well-lg">
+                <img class="img-responsive img-thumbnail x-width: 100%" src="{{tblob}}" alt="Chania">
+                <div class="caption">
+                
+              <p class="par " >Fig.1 - Before NLP</p class="color black "> 
+              <p class="par" >{{before_nlp}}</p class="color black "> 
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-sm-7">
+            <div class="well">
+               
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="well">
+              
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="well">
+              <h4>Bounce</h4>
+              <p>30%</p> 
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="well">
+              <p>Text</p> 
+              <p>Text</p> 
+              <p>Text</p> 
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="well">
+              <p>Text</p> 
+              <p>Text</p> 
+              <p>Text</p> 
+            </div>
+          </div>-->
+          <div class="col-sm-5">
+            <div class="well well-lg">
+                <img class="img-responsive img-thumbnail x-width: 100%" src="{{nlp}}" alt="Chania">
+                <div class="caption">
+              <p class="par ">Fig.2 - after NLP</p> 
+              <p class="par ">{{after_nlp}}</p> 
+              
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="well well-lg">
+                <img class="img-responsive img-thumbnail x-width: 100%" src="{{wordcloudtrain}}" alt="Chania">
+                <div class="caption">
+              <p class="par ">Fig.3 - wordcloud of training model</p> 
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="well well-lg">
+                <img class="img-responsive img-thumbnail x-width: 100%" src="{{wordcloudtest}}" alt="Chania">
+                <div class="caption">
+              <p class="par ">Fig.4 - wordcloud of test model</p> 
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="well well-lg">
+                <img class="img-responsive img-thumbnail x-width: 100%" src="{{pietrain}}" alt="Chania">
+                <div class="caption">
+              <p class="par ">Fig.5 - Pie Chart of Before NLP</p> 
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="well well-lg">
+                <img class="img-responsive img-thumbnail x-width: 100%" src="{{pietest}}" alt="Chania">
+                <div class="caption">
+              <p class="par ">Fig.6 - Pie Chart of After NLP</p> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    
+    <!--<div class="col-lg-7">
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor.
+      </p> 
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor.
+      </p>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor.
+      </p>
+    </div>
+    <div class="col-lg-5">
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor.
+      </p>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor.
+      </p>
+    </div>
+  </div>-->
+
+</div>
+<!-- End demo content -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="{{ url_for('static',filename = 'main.js')}}"></script>
+</body>
+</html>
+
